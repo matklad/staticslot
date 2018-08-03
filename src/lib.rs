@@ -141,16 +141,9 @@ impl<T: 'static> StaticSlot<T> {
     /// This method does not perform any initialization. For optimal performance, this performs a fast check if the
     /// slot is empty and, if not, returns a reference.
     #[inline]
-    pub fn get(&self) -> Option<&mut T> {
-        let ptr = self.as_mut_ptr();
-
-        if !ptr.is_null() {
-            unsafe {
-                Some(&mut *ptr)
-            }
-        } else {
-            None
-        }
+    pub fn get(&self) -> Option<&T> {
+        let ptr = self.as_ptr();
+        unsafe { ptr.as_ref() }
     }
 
     /// Get a mutable reference to the value in the slot.
